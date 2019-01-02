@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- <script src='./assets/index.js'></script> -->
+    <link rel="stylesheet" href="./assets/style.css">
+    <title>canvas绘制一个可碰撞反弹的小球</title>
+</head>
+
+<body>
+    <header></header>
+    <main>
+        <canvas id="ballCanvas"></canvas>
+        <ul class="tool">
+            <li><button class="accelerate">加速</button></li>
+            <li><button class="slow">减速</button></li>
+            <li><button class="stop">停止</button></li>
+            <li><button class="start">开始</button></li>
+        </ul>
+    </main>
+    <footer></footer>
+
+    <script>
+        var canvas = document.getElementById('ballCanvas'),
+            ctx = canvas.getContext('2d'),
+            accBtn = document.querySelector('.accelerate'),
+            slowBtn = document.querySelector('.slow'),
+            stopBtn = document.querySelector('.stop'),
+            startBtn=document.querySelector('.start'),
+            raf,
+            running = false
+        canvas.width = 600
+        canvas.height = 600
+        var ball = {
+            x: 100,
+            y: 100,
+            radius: 20,
+            color: 'red',
+            vx: 2,
+            vy: 20,
+            ax: 1,
+            ay: 1.1,
+            draw: function () {
+                ctx.beginPath()
+                ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, true)
+                ctx.closePath()
+                ctx.fillStyle = this.color
+                ctx.fill()
+            }
+        }
+
+        function clear() {
+            ctx.fillStyle = 'rgba(255,255,255,0.3)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function doMove() {
+            clear()
+            ball.draw()
+            ball.vx *= ball.ax
+            ball.vy *= ball.ay
+            var tempx = ball.x + ball.vx
+            var tempy = ball.y + ball.vy
+
+            if (tempx < 0 || tempx > canvas.width) {
+                ball.vx = -ball.vx
+            } else {
+                ball.x = tempx
+            }
+            if (tempy < 0 || tempy > canvas.height) {
+                ball.vy = -ball.vy
+            } else {
+                ball.y = tempy
+            }
+            raf = requestAnimationFrame(doMove)
+        }
+
+        function bindEvent() {
+            /*
+            canvas.addEventListener('mousemove', function (e) {
+                if (!running) {
+                    clear()
+                    ball.x = e.clientX
+                    ball.y = e.clientY
+                    ball.draw()
+                }
+            })
+            */
+
+            function start() {
+                if (!running) {
+                    raf = requestAnimationFrame(doMove)
+                    running = true
+                }
+            }
+
+            function stop(){
+                cancelAnimationFrame(raf)
+                running = false
+            }
+
+            canvas.addEventListener('click', start)
+            /*
+                canvas.addEventListener('mouseout', function () {
+                cancelAnimationFrame(raf)
+                running = false
+            })
+            */
+
+            accBtn.addEventListener('click', function () {
+                ball.vx > 0 ? (function () {
+                    ball.vx += 1
+                })() : (function () {
+                    ball.vx -= 1
+                })()
+
+                ball.vy > 0 ? (function () {
+                    ball.vy += 1
+                })() : (function () {
+                    ball.vy -= 1
+                })()
+
+            })
+            slowBtn.addEventListener('click', function () {
+                ball.vx > 0 ? (function () {
+                    ball.vx -= 1
+                })() : (function () {
+                    ball.vx += 1
+                })()
+
+                ball.vy > 0 ? (function () {
+                    ball.vy -= 1
+                })() : (function () {
+                    ball.vy += 1
+                })()
+            })
+            stopBtn.addEventListener('click',stop)
+            startBtn.addEventListener('click',start)
+        }
+        bindEvent()
+        ball.draw()
+    </script>
+</body>
+
+</html>
