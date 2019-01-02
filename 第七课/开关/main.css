@@ -1,0 +1,47 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+
+.switch{
+    position: relative;
+    left: 500px;
+    width: 60px;
+    height: 30px;
+    border: 1px solid lightgray;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.5s ease-in;
+}
+
+.switch:hover{
+    background-color: lightgreen;
+}
+
+.switch-wrapper{
+    width: 20px;
+    height: 20px;
+    margin: 5px;
+    line-height: 20px;
+    border-radius: 50%;
+    background-color: dimgray;
+    transition: all 0.3s ease-in;
+}
+
+.switch-wrapper:hover{
+    transform: translateX(20px);
+}
+.carousel-item{
+    position: absolute;
+    top: 100px;
+    left: 400px;
+    width: 500px;
+    height: 400px;
+    background-color: coral;
+    transition: all 0.3s;
+}
+.carousel-item:hover{
+    left: 0;
+    font-display: none;
+}

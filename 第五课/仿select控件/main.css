@@ -1,0 +1,52 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #23384e;
+}
+
+.main {
+    margin: 0 auto;
+    width: 600px;
+}
+
+.main span {
+    display: inline-block;
+    width: 200px;
+    border: 1px solid lightgray;
+    vertical-align: bottom;
+    color: white;
+    cursor: pointer;
+}
+
+.main button {
+    position: relative;
+    left: 20px;
+    width: 100px;
+    height: 30px;
+    border: 0;
+    background-color: salmon;
+    cursor: pointer;
+}
+
+ul {
+    width: 200px;
+    border: 1px solid white;
+    border-top: 0;
+    background-color: #2b2b2b;
+    color: white;
+    display: none;
+}
+
+li {
+    list-style: none;
+    border-bottom: 1px solid lightgrey;
+    text-align: center;
+    cursor: pointer;
+}
+
+li:hover {
+    background-color: #8b8b8b;
+}

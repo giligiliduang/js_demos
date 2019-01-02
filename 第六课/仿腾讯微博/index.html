@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="main.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="main">
+        <div class="top">
+            <div class="top-title">来 , 说说你在做什么 , 想什么</div>
+            <div class="avatars">
+                <input type="text">
+                <ul class="clearfix">
+                    <li class="avatar-active"><img src="imgs/face1.gif" alt=""></li>
+                    <li><img src="imgs/face2.gif" alt=""></li>
+                    <li><img src="imgs/face3.gif" alt=""></li>
+                    <li><img src="imgs/face4.gif" alt=""></li>
+                    <li><img src="imgs/face5.gif" alt=""></li>
+                    <li><img src="imgs/face6.gif" alt=""></li>
+                    <li><img src="imgs/face7.gif" alt=""></li>
+                    <li><img src="imgs/face8.gif" alt=""></li>
+                </ul>
+            </div>
+            <div class="text-input">
+                <textarea name="" id="" cols="60" rows="5"></textarea>
+            </div>
+        </div>
+        <div class="message-banner clearfix">
+            <p>
+                <span>还能输入</span>
+                <strong>140</strong>
+                <span>个字</span>
+                <button></button>
+            </p>
+        </div>
+        <div id="list">
+            <h1><span>大家都在说</span></h1>
+            <ul class="messages">
+                <li>
+                    <div class="user-avatar clearfix">
+                        <img src="./imgs/face.gif" alt="">
+                    </div>
+                    <div class="content">
+                        <div class="username">
+                            <a href="">老弟你别闹</a>
+                        </div>
+                        <div class="messageInfo">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit dolorum nostrum error a,
+                        </div>
+                        <div class="times">
+                            <span class="time">7月5日</span>
+                            <a href="" class="delete-msg">删除</a>
+                        </div>
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+    </div>
+    <script>
+        /*
+                    一：获取用户信息
+                    二：限定统计文本输入
+                    三: 显示基本信息
+                */
+        function Userinfo() {
+            this.usernameInput = document.querySelector('.avatars input')
+            this.avatars = Array.prototype.slice.call(document.querySelectorAll('.avatars li'), 0)
+            this.lastchecked = null
+            var self = this
+            this.getUsername = function () {
+                //获取输入的昵称
+                return this.usernameInput.value
+            }
+            this.avatarHover = function () {
+                this.avatars.forEach(function (item, index) {
+                    item.onmouseenter = function (e) {
+                        item.classList.add("avatar-hover")
+                    }
+                    item.onmouseleave = function (e) {
+                        item.classList.remove("avatar-hover")
+                    }
+                })
+            }
+            this.avatarActive=function(){
+                this.avatars.forEach(function(item,index){
+                    item.onclick=function(){
+                        self.clearAll()
+                        item.classList.add('avatar-active')
+                    }
+                })
+            }
+            this.clearAll = function () {
+                this.avatars.forEach(function (item) {
+                    item.className = ""
+                })
+            }
+            this.getcurSrc = function () {
+                //获取选中图片的src
+                var src = ""
+                this.avatars.forEach(function (item) {
+                    if (item.className === "avatar-active") {
+                        src = item.firstElementChild.src
+                        console.log(src)
+                    }
+                })
+                return src
+            }
+            this.init = function () {
+                this.avatarHover()
+                this.avatarActive()
+            }
+
+        }
+
+        function WordCount() {
+            this.area = document.querySelector('.text-input textarea')
+            this.totalWord = document.querySelector('.message-banner strong')
+            this.splitLength = 0 //存储需要截断的长度
+            var self = this
+            var re = /^[\u4e00-\u9fa5]+$/
+            this.count = function (s) {
+                var zh = 0
+                var en = 0
+                var s_arr = s.split('')
+                s_arr.forEach(function (item) {
+                    if (re.test(item)) {
+                        zh += 1
+                    } else {
+                        en += 1
+                    }
+                })
+                var total = zh + Math.ceil(en / 2)
+                return total
+            }
+            this.formChange = function (length) {
+                var inputhandler = this.area.addEventListener('input', function () {
+                    var text = self.area.value
+                    var total = self.count(text)
+                    if (total <= length) {
+                        self.totalWord.innerText = length - total
+                        self.splitLength = text.length
+                    } else {
+                        self.area.value = text.substr(0, self.splitLength)
+                    }
+
+                })
+                // this.area.onblur=function(){
+                //     console.log('shabiu')
+                //     self.totalWord.innerText=""
+                //     self.area.value=""
+                // }
+            }
+            this.getMessagedetail = function () {
+                return self.area.value
+            }
+            this.clearTextInput=function(){
+                self.area.value=""
+                
+            }
+
+            this.init = function () {
+                this.formChange(140)
+            }
+        }
+
+        function Broadcast() {
+            this.userinfo = new Userinfo()
+            this.wordcount = new WordCount()
+            this.userinfo.init()            
+            this.wordcount.init()
+            this.basicInfo = function () {
+                var username = this.userinfo.getUsername()
+                var avatarsrc = this.userinfo.getcurSrc()
+                var message = this.wordcount.getMessagedetail()
+                if (!username) {
+                    alert('请输入姓名')
+                    return
+                }
+                if (!message) {
+                    alert('说点什么吧')
+                    return
+                }
+                return {
+                    'username': username,
+                    'avatarsrc': avatarsrc,
+                    'message': message
+                }
+            }
+        }
+
+        function ShowList() {
+            this.send = document.querySelector('.message-banner button')
+            this.messages = document.getElementsByClassName('messages')[0]
+            var self = this
+            this.board = new Broadcast()
+            this.wordcount=new WordCount()
+            this.addList = function () {
+                this.send.onclick = function (e) {
+                    var basic = self.board.basicInfo()
+                    var username = basic['username']
+                    var avatarsrc = basic['avatarsrc']
+                    var message = basic['message']
+                    var date=(new Date).toLocaleString()
+                    var li = document.createElement('li')
+                    li.innerHTML =
+                        `<div class="user-avatar clearfix">
+                        <img src="${avatarsrc}" alt="">
+                    </div>
+                    <div class="content">
+                        <div class="username">
+                            <a href="">${username}</a>
+                        </div>
+                        <div class="messageInfo">
+                            ${message}
+                        </div>
+                        <div class="times">
+                            <span class="time">${date}</span>
+                            <a href="" class="delete-msg">删除</a>
+                        </div>
+                    </div>`
+                    self.messages.appendChild(li)
+                    self.wordcount.clearTextInput()
+                }
+            }
+
+        }
+
+        var s=new ShowList()
+        s.addList()
+    </script>
+</body>
+
+</html>

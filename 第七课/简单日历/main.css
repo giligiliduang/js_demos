@@ -1,0 +1,193 @@
+* {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    /* box-sizing: border-box; */
+}
+/*背景图片*/
+body{
+    background-image:url('./imgs/01ca5a578986d30000018c1b54cd58.jpg@2o.jpg');
+    background-repeat: no-repeat;
+    background-size: 1920px 1280px;
+    background-clip: border-box;
+}
+
+/*主位置布局*/
+.main {
+    position: relative;
+    margin: 0 auto;
+    width: 300px;
+    top: 100px;
+}
+
+/*日历外部布局*/
+.calendar {
+    position: absolute;
+    margin: 0 auto;
+    width: 500px;
+    border: 10px solid lightseagreen;
+    padding: 50px;
+}
+
+.cal-header ul {
+    width: 300px;
+    font-size: 20px;
+    overflow: hidden;
+
+}
+
+.cal-header li {
+    float: left;
+    width: 40px;
+    text-align: center;
+
+}
+
+.cal-body{
+    float: left;
+    width: 310px;
+    
+}
+
+.cal-body ul {
+    width: 300px;
+    margin-top: 10px;
+    font-size: 20px;
+    text-align: center;
+    overflow: hidden;
+}
+
+.cal-body li {
+    float: left;
+    width: 40px;
+    height: 50px;
+    /* border: 1px solid lightblue; */
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.cal-body li:hover {
+    
+    box-sizing: border-box; /*设置为内边框*/
+    border: 5px solid lightseagreen;
+
+}
+
+/*工具条*/
+
+.cal-toolbar {
+    width: 400px;
+}
+
+[name=month],
+[name=year] {
+    vertical-align: baseline;
+}
+
+#left,
+#right {
+    background: 0;
+    border: 0;
+    cursor: pointer;
+    outline: 0;
+    font-size: 20px;
+    color: dimgray;
+}
+
+select {
+    outline: 0;
+    text-align: center;
+}
+
+#today {
+    width: 60px;
+    height: 20px;
+    margin-left: 50px;
+    outline: 0;
+    border: 0;
+    background-color: #009688;
+    color: white;
+    cursor: pointer;
+
+}
+
+#today:hover {
+    opacity: 0.8;
+}
+
+#today:active {
+    opacity: 1;
+}
+
+/*动态添加样式*/
+.active {
+    background-color: #FFB800;
+}
+
+.common {
+    background-color: #ccffff;
+}
+
+.disabled {
+    cursor: default;
+    opacity: 0.5;
+}
+.clicked-active{
+    box-sizing: border-box; /*设置为内边框*/
+    border: 5px solid lightseagreen;
+}
+
+/*侧边栏布局*/
+
+.cal-side{
+    margin-top: 9px;
+    width: 120px;
+    height: 250px;
+    position: relative;
+    right: 29px;
+    display: inline-block;
+    background-color:  lightseagreen;
+}
+/*边栏内部元素*/
+
+.right-date{
+    text-align: center;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 15px;
+    font-weight: 200;
+    color: white;
+}
+.right-day{
+    margin: 0 auto;
+    width: 120px;
+}
+.right-day div{
+    display: inline-block;
+    position: relative;
+    top: 10px;
+    left: 20px;
+    width: 80px;
+    height: 80px;
+    background-color: aquamarine;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 40px;
+    font-weight: 200;
+    text-align: center;
+    line-height: 80px;
+}
+.right-lunar{
+    position: relative;
+    top: 10px;
+    text-align: center;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 15px;
+    font-weight: 200;
+    color: white;
+    /* border-bottom: 1px solid lightcoral; */
+}
+
+.right-lunar span{
+    display: block;
+}

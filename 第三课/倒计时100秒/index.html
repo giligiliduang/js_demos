@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="main.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="main">
+        <div class="timer">
+            <div id="showbox" class="clearfix">
+                <span></span>分钟
+                <span></span>秒
+            </div>
+            <button id="start">启动</button>
+        </div>
+    </div>
+
+    <script>
+        let start=document.getElementById('start')
+        let minute=document.getElementsByTagName('span')[0]
+        let second=document.getElementsByTagName('span')[1]
+        let count=false//当前的计时状态
+        let seconds=100
+        let handles=[]//timerid
+
+        minute.innerText=parseInt(seconds/60)
+        second.innerText=parseInt(seconds%60)
+        start.onclick=()=>{
+            if(!count){
+            let handle=setInterval(()=>{
+                if(seconds===0){
+                    clearInterval(handles.pop())
+                    start.removeAttribute('style')
+                    alert('计时完成')
+                }
+                minute.innerText=parseInt(seconds/60)
+                second.innerHTML=parseInt(seconds%60)
+                seconds--
+            },1000)
+            handles.push(handle)
+            count=true
+            start.style.backgroundColor="red"
+        }else{
+            let handle=handles.pop()
+            count=false
+            clearInterval(handle)
+            start.removeAttribute('style')
+        }
+        }
+    </script>
+</body>
+</html>

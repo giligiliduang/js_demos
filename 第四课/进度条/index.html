@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="main.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="main">
+        <div class="bar">
+            <div class="progress">加载中</div>
+        </div>
+        <button id="start">开始</button>
+    </div>
+</body>
+<script>
+    //带有暂停功能的进度条
+    /*
+    进度条共三种状态，暂停，处理中，结束
+    
+    */
+    
+    let bar =document.getElementsByClassName('bar')[0]
+    let progress=document.getElementsByClassName('progress')[0]
+    let btn=document.getElementById('start')
+    const length=bar.scrollWidth
+    let handlers=[]
+    let start=0
+    let begin="pause"
+    function startProgress(time){
+        let step=parseInt(length*0.005)
+        let handle=setInterval(function(){
+            if(start===length+step){
+                progress.style.backgroundColor="orange"
+                progress.innerText="加载完成"
+                btn.style.backgroundColor="orange"
+                clearInterval(handle)
+                btn.innerText="重新开始"
+                begin="stop"
+                return
+            }
+            progress.style.width=start+'px'
+            progress.innerText="加载中"+parseInt((start/length)*100).toString()+'%'
+            start+=step
+        },time)
+        handlers.push(handle)
+    }
+    btn.onclick=function(){
+        if(begin==="pause"){
+            startProgress(10)
+            btn.innerText="暂停"
+            btn.style.backgroundColor="red"
+            begin="progress"
+        }
+        else if(begin==="progress"){
+            clearInterval(handlers.pop())
+            btn.style.backgroundColor="green"
+            btn.innerText="继续"
+            begin="pause"
+        }
+        else if(begin==="stop"){
+            start=0
+            progress.removeAttribute('style')
+            startProgress(10)
+            btn.innerText="暂停"
+            btn.style=backgroundColor="red"
+            begin="progress"
+        }        
+        
+    }
+</script>
+</html>

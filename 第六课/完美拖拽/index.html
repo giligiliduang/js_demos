@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="assets/main.css">
+    <script src="assets/main.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div class="main">
+        <div class="button-group">
+            <button class="rangeLock">锁定范围</button>
+            <button class="horizonLock">水平锁定</button>
+            <button class="verticalLock">垂直锁定</button>
+            <button class="positionLock">锁定位置</button>
+        </div>
+        <div class="draggable-container">
+            <div class="tool-bar">
+                <button>点击我回放拖拽轨迹</button>
+            </div>
+            <div class="status-wrapper">
+                <div class="status">
+                    <p>Drag:<span>false</span> </p>
+                    <p>OffsetTop:<span>200</span> </p>
+                    <p>OffsetLeft:<span>400</span></p>
+                    <p>可编辑区域:<span>400</span></p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        new Drag()
+    </script>
+</body>
+</html>

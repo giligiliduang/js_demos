@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+</head>
+
+<body>
+    <div class="outter">
+        
+        属性名：<input type="text" id="key">
+        属性名：<input type="text" id="value">
+        <button id="ensure">确定</button>
+        <button id="reset">重置</button>
+        <div class="div1">
+            在上方输入框输入"属性名"及"属性值"，点击确定按钮查看效果。
+        </div>
+    </div>
+    <script>
+        
+        function BindEvents(){
+            let key = document.getElementById('key')
+            let value = document.getElementById('value')
+            let ensure=document.getElementById('ensure')
+            let reset=document.getElementById('reset')
+            let div1=document.getElementsByClassName('div1')[0]
+            
+            key.onfocus=function(){
+                if(key.value===''){
+                    key.value="background"
+                }
+            }
+            value.onfocus=function(){
+                if(value.value===''){
+                    value.value="blue"
+                }
+            }
+            ensure.onclick=()=>{
+                div1.style[key.value]=value.value
+            }
+            reset.onclick=()=>{
+                div1.removeAttribute('style')
+            }
+            
+        }
+        BindEvents()
+    </script>
+</body>
+
+</html>

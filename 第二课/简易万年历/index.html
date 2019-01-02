@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="main.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="outter">
+        <ul>
+            <li>
+                <strong>1</strong>Jan</li>
+            <li>
+                <strong>2</strong>FEB</li>
+            <li>
+                <strong>3</strong>MAR</li>
+            <li>
+                <strong>4</strong>APR</li>
+            <li>
+                <strong>5</strong>MAY</li>
+            <li>
+                <strong>6</strong>JUN</li>
+            <li>
+                <strong>7</strong>JUL</li>
+            <li>
+                <strong>8</strong>AUG</li>
+            <li>
+                <strong>9</strong>SEP</li>
+            <li>
+                <strong>10</strong>OCT</li>
+            <li>
+                <strong>11</strong>NOV</li>
+            <li>
+                <strong>12</strong>DEC</li>
+        </ul>
+        <div id="msg">
+        </div>
+    </div>
+</body>
+<script>
+    const msgs=['元旦：1月1日至3日放假三天',
+                '春节：2月2日至8日放假7天。',
+                '妇女节：3月8日妇女节，与我无关.',
+                '清明节：4月3日至5日放假3天',
+                '劳动节：4月30日至5月2日放假3天。',
+                '端午节6月4日到6月6日放假3天',
+                '小暑，不放假',
+                '七夕节，不放假',
+                '中秋节：9月10日至12日放假3天。',
+                '国庆节：10月1日至7日放假7天。',
+                '立冬：11月8日立冬。不放假。',
+                '艾滋病日:12月1日废除奴隶制国际日:12月2日。']
+    let lis=document.querySelectorAll('li')
+    lis=Array.from(lis)
+    let msgdiv=document.getElementById('msg')
+    lis.forEach((item,index)=>{
+        let day=index+1
+        let msgh1=document.createElement('h1')
+        let description=document.createElement('p')
+        msgh1.style.fontWeight="bold"
+        msgh1.innerText=day+'月节日'
+        description.innerText=msgs[index]
+        item.onmouseenter=(e)=>{
+            this.className="current"
+            msgdiv.appendChild(msgh1)
+            msgdiv.appendChild(description)
+        }
+        item.onmouseleave=(e)=>{
+            this.className=""
+            msgdiv.removeChild(msgh1)
+            msgdiv.removeChild(description)
+        }
+        
+    })
+</script>
+</html>

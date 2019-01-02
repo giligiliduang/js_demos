@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./styles/style.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <header></header>
+    <main>
+        <section class="banner-wrapper">
+            <header>请判断以下道德或者不道德的词汇</header>
+            <main class="banner">
+                
+            </main>
+            <footer class="btn-wrapper">
+                <button class="start-btn btn-warning btn-lg">开始</button>
+                <button class="moral-btn btn-default btn-lg">道德</button>
+                <button class="unmoral-btn btn-default btn-lg">不道德</button>
+                <button class="restart btn-danger btn-lg">重新开始</button>
+            </footer>
+        </section>
+        <section class="stastics-wrapper">
+            <main class="stastics"></main>
+        </section>
+    </main>
+    <footer></footer>
+</body>
+<script src="./moral.js"></script>
+<script>
+    (new MoralTest())
+</script>
+</html>

@@ -1,0 +1,103 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    list-style: none;
+    font-size: 100%;
+}
+body{
+    background-color: black;
+}
+
+
+@mixin banner-common {
+    width: 200px;
+    height: 200px;
+    display: inline-block;
+    font-size: 3em;
+}
+
+$colors: ('red', 'green', 'black');
+
+@each $color in $colors {
+    @if $color=='black' {
+        .#{$color}-banner {
+            @include banner-common();
+            color: unquote($color);
+        }
+    }
+
+    @else {
+        .#{$color}-banner {
+            @include banner-common();
+            margin-right: 10px;
+            color: unquote($color);
+        }
+    }
+
+}
+
+@mixin btn-mixin($size) {
+    @if $size=='sm' {
+        width: 50px;
+    }
+
+    @else if $size=='md' {
+        width: 100px;
+    }
+
+    @else if $size=='lg' {
+        width: 150px;
+    }
+
+    height: 30px;
+    border: 0;
+    outline: 0;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.btn-sm {
+    @include btn-mixin('sm')
+}
+
+.btn-md {
+    @include btn-mixin('md')
+}
+
+.btn-lg {
+    @include btn-mixin('lg')
+}
+
+$btnStyles:('success', 'default', 'primary', 'danger', 'warning');
+$btnColors:(#FFFF33, #0099CC, #FFCCCC, #FF6666, #663399);
+
+@each $style in $btnStyles {
+    $idx: index($list: $btnStyles, $value:$style);
+    .btn-#{$style} {
+        color: white;
+        background-color: nth($list: $btnColors, $n:$idx);
+    }
+}
+
+.banner-wrapper {
+    display: absolute;
+    width: 50%;
+    margin: 0 auto;
+    background-color: #CCFFCC;
+    text-align: center;
+}
+
+.stastics-wrapper {
+    @extend .banner-wrapper;
+    margin-top: 50px;
+}
+
+
+.restart{
+    transition: all .5s;
+}
+
+.banner h1{
+    font-size: 3em;
+}

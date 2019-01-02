@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="main.css">
+    <script src="render.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="main">
+        <div class="calendar">
+            <div class="cal-header">
+                <div class="cal-toolbar">
+                    <select name="year">
+                    </select>
+                    <button id="left">
+                        <</button> <select name="month">
+                            </select>
+                            <button id="right">></button>
+                            <button id="today">回到今天</button>
+                </div>
+
+                <ul>
+                    <li>一</li>
+                    <li>二</li>
+                    <li>三</li>
+                    <li>四</li>
+                    <li>五</li>
+                    <li>六</li>
+                    <li>日</li>
+                </ul>
+            </div>
+            <div class="cal-body">
+                <ul>
+
+                </ul>
+            </div>
+            <div class="cal-side">
+                <div class="right-date"></div>
+                <div class="right-day">
+                    <div></div>
+                </div>
+                <div class="right-lunar">
+                    <span>今天</span>
+                    <span>别闹</span>
+                    <span>哈哈</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /*
+            简易版本的日历v0.0.1
+            技术要点：
+            2018.9.15
+            视图层：左浮动，清除浮动，默认样式
+            1.判断闰年确定当月天数
+            2.判断当月第一天是周几
+            3.计算出前一个月渲染几天，后一个月渲染几天，两个月份如果不够35天，要下一个月来填上，大于35全部渲染
+            4.只要年份或者月份改变就要刷新视图（刷新等于清除前一次渲染本次）
+            2018.9.16
+            5.button可以控制select并重新渲染视图
+            6.点击当前可选日期提示当前日期
+            7.点击返回今天，回到今天(刷新视图到今天)
+            2018.9.17
+            8.添加农历支持(暂时没有合适的api接口)
+            2018.9.18
+            9.给日历添加侧边栏显示当前日期和农历信息
+            2018.9.19
+            10.支持选择当前日期并且更新面板视图
+            2018.9.22
+            11.需要解决bug
+        */
+        (function () {
+            function RenderDate() {
+                this.yearSelect = document.querySelector('[name=year]')
+                this.monthSelect = document.querySelector('[name=month]')
+                this.listUL = document.querySelector('.cal-body ul')
+                this.leftbtn = document.querySelector('#left')
+                this.rightbtn = document.querySelector('#right')
+                this.todaybtn = document.querySelector('#today')
+                this.curYear = (new Date).getFullYear()
+                this.curMonth = (new Date).getMonth() + 1 //此month从0开始需要加一
+                this.curDay = ~~(new Date).toLocaleDateString().substr(7, 8)
+                this.selectedYear = this.curYear
+                this.selectedMonth = this.curMonth
+                this.selectedDay=this.curDay
+                this.preliClicked=false
+                this.curliClicked=false
+                this.nextliClicked=false
+                var self = this
+                this.lastSelectedDate={
+                    year:self.curYear,
+                    month:self.curMonth,
+                    day:self.curDay
+                }//默认选中今天
+                this.renderSelect = function () {
+
+                    var yearOptions = self.getOptions(1900, 2050, '年')
+                    var monthOptions = self.getOptions(1, 12, '月')
+                    yearOptions.forEach(function (item) {
+                        self.yearSelect.options.add(item)
+                    })
+                    monthOptions.forEach(function (item) {
+                        self.monthSelect.options.add(item)
+                    })
+                }
+                this.getOptions = function (start, end, type) {
+                    var options = []
+                    for (var x = start; x <= end; x++) {
+                        var option = new Option(x + type, x)
+                        if (x === self.curYear || x === self.curMonth) {
+                            option.selected = true
+                        }
+                        options.push(option)
+                    }
+                    return options
+                }
+
+                this.renderList = function (year, month) {
+                    //每次年份或者月份改变都要重新渲染
+                    year = ~~year //保证传入的是数字
+                    month = ~~month
+                    this.td = new DateData(year, month)
+                    var data = ''
+                    var res = this.td.getResult()
+                    var lis = ''
+                    var preMonthDays = res[0]
+                    var curMonthDays = res[1]
+                    var nextMonthDays = res[2]
+                    var nextRenderDays = 35 - curMonthDays.length - preMonthDays.length
+                    var preAndCurDays = preMonthDays.length + curMonthDays.length
+                    preMonthDays.forEach(function (item) {
+                        lis += `<li class="disabled">${item}</li>`
+                    })
+                    curMonthDays.forEach(function (item, index) {
+                        // data=td.getLunarDate(year,month,item)
+                        if (index + 1 === self.curDay && month == self.curMonth && year == self.curYear) {
+                            lis += `<li class="active">${item}<p>${data['cnday']||""}</p></li>`
+                        } else {
+                            if(index+1===self.lastSelectedDate.day){
+                                lis+=`<li class="common clicked-active">${item}<p>${data['cnday']||""}</p></li>`
+                            }
+                            else{
+                            lis += `<li class="common">${item}<p>${data['cnday']||""}</p></li>`
+                            }
+                        }
+                    })
+                    if (preAndCurDays <= 35) {
+                        nextMonthDays.forEach(function (item, index) {
+                            if (index <= nextRenderDays - 1) {
+                                lis += `<li class="disabled">${item}</li>`
+                            }
+
+                        })
+                    } else {
+                        nextMonthDays.forEach(function (item) {
+                            lis += `<li class="disabled">${item}</li>`
+                        })
+                    }
+                    this.listUL.innerHTML = lis
+                    this.renderSidecal(year,month,self.lastSelectedDate.day)
+
+                }
+                
+                this.renderSidecal=function(year,month,day){
+                    year=~~year
+                    month=~~month
+                    day=~~day
+                    
+                    var rightDate=document.querySelector('.right-date')
+                    var rightDay=document.querySelector('.right-day div')
+                    var weeks=['星期日','星期一','星期二','星期三','星期四'
+                                ,'星期五','星期六']
+                    var x=new Date()
+                    x.setFullYear(year,month-1,day)//month从0开始
+                    var thisweek=weeks[x.getDay()]
+                    var detaildate=`${year}-${month}-${day} ${thisweek}`
+                    rightDate.innerText=detaildate
+                    rightDay.innerText=day
+                }
+
+                this.getSelectedDate = function (options) {
+                    //获得当前选中的时间(年份或者月份)
+                    var opts = Array.prototype.slice.call(options, 0)
+                    var res = ''
+                    opts.forEach(function (item) {
+                        if (item.selected) {
+                            res = item.value
+                        }
+
+                    })
+                    return res
+                }
+                this.setSelectedDate = function (options, index) {
+                    options[index].selected = true
+                }
+
+                this.bindEvents = function () {
+                    this.yearSelect.onchange = function (e) {
+                        self.selectedYear = self.getSelectedDate(this.options)
+                        self.refresh(self.selectedYear, self.selectedMonth)
+                    }
+                    this.monthSelect.onchange = function () {
+                        self.selectedMonth = self.getSelectedDate(this.options)
+                        self.refresh(self.selectedYear, self.selectedMonth)
+                    }
+                    /*
+                    按钮控制月份的增减，影响年份，需要判断边界条件
+                    */
+                    this.leftbtn.onclick = function (e) {
+                        //selectedIndex 0~11
+                        var curMonthIndex = self.monthSelect.options.selectedIndex
+                        var curYearIndex = self.yearSelect.options.selectedIndex
+                        if (curMonthIndex > 0) {
+                            curMonthIndex--
+                        } else if (curMonthIndex === 0) {
+                            curMonthIndex = 11
+                            if (curYearIndex > 0) {
+                                curYearIndex--
+                            } else if (curYearIndex === 0) {
+                                curMonthIndex = 0
+                            }
+                        }
+
+                        self.setSelectedDate(self.yearSelect.options, curYearIndex)
+                        self.setSelectedDate(self.monthSelect.options, curMonthIndex)
+                        var year = self.getSelectedDate(self.yearSelect.options)
+                        var month = self.getSelectedDate(self.monthSelect.options)
+                        self.refresh(year, month)
+                    }
+                    this.rightbtn.onclick = function (e) {
+                        var curMonthIndex = self.monthSelect.options.selectedIndex
+                        var curYearIndex = self.yearSelect.options.selectedIndex
+                        var monthOptionTotalIndex = self.monthSelect.options.length - 1
+                        var yearOptionTotalIndex = self.yearSelect.options.length - 1
+                        if (curMonthIndex < monthOptionTotalIndex) {
+                            curMonthIndex++
+                        } else if (curMonthIndex === monthOptionTotalIndex) {
+                            curMonthIndex = 0
+                            if (curYearIndex < yearOptionTotalIndex) {
+                                curYearIndex++
+                            } else if (curYearIndex === yearOptionTotalIndex) {
+                                curMonthIndex = monthOptionTotalIndex
+                            }
+                        }
+
+                        self.setSelectedDate(self.yearSelect.options, curYearIndex)
+                        self.setSelectedDate(self.monthSelect.options, curMonthIndex)
+                        var year = self.getSelectedDate(self.yearSelect.options)
+                        var month = self.getSelectedDate(self.monthSelect.options)
+                        self.refresh(year, month)
+
+                    }
+                    this.todaybtn.onclick = function (e) {
+                        //回到今天
+                        var yearIndex = ~~self.curYear - 1900
+                        var monthIndex = self.curMonth - 1
+                        self.setSelectedDate(self.yearSelect.options, yearIndex)
+                        self.setSelectedDate(self.monthSelect.options, monthIndex)
+                        self.refresh(self.curYear, self.curMonth)
+                        self.lastSelectedDate.day=self.curDay
+                        self.renderSidecal(self.curYear,self.curMonth,self.curDay)
+                        
+                    }
+
+                    this.listUL.onclick=function(e){
+                        var ev=e||window.event
+                        var target=e.target || e.srcElement
+                        var lists=Array.prototype.slice.call(e.currentTarget.children,0)
+                        // todo 处理之前月份和之后月份，点击之后保持选中状态
+                        var prelists=lists.slice(0,self.td.preRenderDays)
+                        var curlists=lists.slice(self.td.preRenderDays,self.td.preRenderDays+self.td.curDays)
+                        var nextlists=lists.slice(self.td.preRenderDays+self.td.curDays,self.td.preRenderDays+self.td.curDays+self.td.remainDays)
+                        var day=~~target.innerText
+                        if(prelists.indexOf(target)!==-1){
+                            var preindex=prelists.indexOf(target)
+                            self.clearLiStyles(lists,'clicked-active')
+                            target.classList.add('clicked-active')
+                            self.updateSelectedDate(self.lastSelectedDate,self.td.preYear,self.td.preMonth,day)
+                            self.renderSidecal(self.td.preYear,self.td.preMonth,day)
+                            if(preindex===prelists.length-1){
+                                self.leftbtn.click()
+                            }
+                        }
+                        else if(curlists.indexOf(target)!==-1){
+                            var curindex=curlists.indexOf(target)
+                            self.clearLiStyles(lists,'clicked-active')
+                            if(target.classList[0]!=="active"){
+                                target.classList.add('clicked-active')
+                            }
+                            self.updateSelectedDate(self.lastSelectedDate,self.td.curYear,self.td.curMonth,day)
+                            self.renderSidecal(self.td.curYear,self.td.curMonth,day)
+                        }
+                        else if(nextlists.indexOf(target)!==-1){
+                            var nextindex=nextlists.indexOf(target)
+                            self.clearLiStyles(lists,'clicked-active')
+                            target.classList.add('clicked-active')
+                            self.updateSelectedDate(self.lastSelectedDate,self.td.nextYear,self.td.nextMonth,day)
+                            self.renderSidecal(self.td.nextYear,self.td.nextMonth,day)
+                            if(nextindex===0){
+                                self.rightbtn.click()
+                            }
+                        }
+                        
+                    }
+
+                }
+                this.updateSelectedDate=function(a,b,c,d){
+                    //b c d代表年 月 日
+                    var preyear=self.td.getYear(b,c,'pre')
+                    var premonth=self.td.getMonth(c,'pre')
+                    var preDays=self.td.getDays(preyear,premonth)
+                    a.year=b
+                    a.month=c
+                    a.day=d
+                }
+                this.refresh = function (year, month) {
+                    this.clearAll()
+                    this.renderList(year, month)
+                }
+
+                this.clearAll = function () {
+                    self.listUL.innerHTML = ''
+
+                }
+                this.clearLiStyles=function(lis,classname){
+                    lis.forEach(function(item){
+                        item.classList.remove(classname)
+                    })
+                }
+
+                this.setUp = function () {
+                    this.renderSelect()
+                    this.renderList(this.selectedYear, this.selectedMonth)
+                    this.bindEvents()
+                }
+
+
+
+            }
+            window.RenderDate = RenderDate
+        })()
+
+        var rd = new RenderDate()
+        rd.setUp()
+    </script>
+</body>
+
+</html>

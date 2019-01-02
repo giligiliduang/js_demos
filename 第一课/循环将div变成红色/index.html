@@ -1,0 +1,36 @@
+!<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+</head>
+<body>
+    <div class="container">
+        <button id="change">将div变成红色</button>
+        <div class="rec"></div>
+        <div class="rec"></div>
+        <div class="rec"></div>   
+    </div>
+    <script>
+        function changeColorwithLoop(){
+            let elements=document.getElementsByTagName('div')//返回的是伪数组对象
+            let arr=Array.from(elements).slice(1,elements.length)            
+            arr.forEach(function(item){
+                if(!item.classList.contains('active')){
+                    item.classList.remove('rec')
+                    item.classList.add('active')
+                }else{
+                    item.classList.remove('active')
+                    item.classList.add('rec')
+                }
+            })//简单的toggle
+        }
+        let elem=document.getElementById('change')
+        let handle=elem.addEventListener('click',changeColorwithLoop)
+        
+    </script>
+</body>
+</html>

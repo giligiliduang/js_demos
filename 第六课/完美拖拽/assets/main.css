@@ -1,0 +1,51 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+body{
+    background-color: black;
+}
+
+.main{
+    margin: 0 auto;
+    width: 1280px;
+   
+}
+
+.draggable-container{
+    position: absolute;
+    left: 500px;
+    top: 200px;
+    width: 400px;
+    background-color: dimgray;
+}
+.tool-bar{
+    width: 100%;
+    height: 40px;
+    border-bottom: 1px solid white;
+    cursor: move;
+}
+.tool-bar button{
+    float: right;
+    margin: 10px;
+    border: 0;
+    outline: 0;
+    background: 0;
+    cursor: pointer;
+    color: white;
+}
+
+.status-wrapper{
+    line-height: 50px;
+}
+.status p{
+    color: white;
+}
+.status p:last-child{
+    cursor: pointer;
+}
+
+
+.status span{
+    color: yellow;
+}

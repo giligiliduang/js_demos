@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="main.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="main">
+        <div class="top">
+            <button id="pos">根据点击位置移动</button>
+            <button id="trace">根据轨迹移动</button>
+            <h1 id="msg"></h1>
+        </div>
+        <div class="rec"><img src="./imgs/1.gif" alt=""></div>
+    </div>
+
+    <script>
+        function Trace() {
+            this.character = document.querySelector('.rec img')
+            this.rec = document.querySelector('.rec')
+            this.clicked = false
+            var self = this
+            this.trail = [] //存储轨迹
+            this.removeArr = function (arr, item) {
+                //删除数组元素(真*删除)
+                arr.splice(arr.indexOf(item), 1)
+            }
+            this.clearTrail = function () {
+                self.trail.splice(0).forEach(function (item, index) {
+                    self.removeArr(self.trail, item)
+                })
+            }
+            this.bindEvent = function () {
+                this.startHandler = function (e) {
+                    if (self.trail.length !== 0) {
+                        self.clearTrail()
+                    }
+                    self.clicked = true
+                    self.trail.push([e.clientX, e.clientY]) //起点
+                }
+                this.traceHandler = function (e) {
+                    console.log(self.trail)
+                    if (self.clicked) {
+                        self.trail.push([e.clientX, e.clientY])
+                    }
+                }
+                this.endHandler = function (e) {
+                    console.log('end')
+                    self.clicked = false
+                    self.trail.push([e.clientX, e.clientY]) //终点
+                    self.move() //开始移动
+                }
+                document.addEventListener('mousedown', this.startHandler)
+                document.addEventListener('mousemove', this.traceHandler)
+                document.addEventListener('mouseup', this.endHandler)
+                console.log('hello')
+
+
+            }
+            this.removeEvent = function () {
+                document.removeEventListener('mousedown', this.startHandler)
+                document.removeEventListener('mousemove', this.traceHandler)
+                document.removeEventListener('mouseup', this.endHandler)
+            }
+            this.move = function () {
+                this.character.src = './imgs/2.gif'
+                var count = 0
+                var h = setInterval(function () {
+                    if (count === self.trail.length - 1) {
+                        self.character.src = './imgs/1.gif'
+                        clearInterval(h)
+                        return false
+                    }
+                    var x = self.trail[count][0]
+                    var y = self.trail[count][1]
+                    self.rec.style.top = y + 'px'
+                    self.rec.style.left = x + 'px'
+                    count++
+                }, 10)
+                count = 0
+            }
+        }
+
+        function Start() {
+            this.tracebtn = document.getElementById('trace')
+            this.pos = document.getElementById('pos')
+            this.msg=document.getElementById('msg')
+            this.trace = new Trace()
+            var self = this
+            this.clicked = false
+            this.init = function () {
+                this.tracebtn.onclick = function (e) {
+                    (e || window.e).cancelBubble = true
+                    self.clearEvent()
+                    if (!self.clicked) {
+                        self.clicked = true
+                        self.trace.bindEvent()
+                        self.tracebtn.innerText += '(已绑定)'
+                    } else {
+                        self.clicked = false
+                        self.tracebtn.innerText = '根据鼠标轨迹移动'
+                        self.trace.removeEvent()
+                    }
+                }
+            }
+            this.clearEvent = function () {
+                document.onclick = null
+                document.onmousedown = null
+                document.onmouseup = null
+                document.onmousemove = null
+                self.tracebtn.onmousedown = self.tracebtn.onmouseup = function (e) {
+                    (e || window.event).cancelBubble = true
+                }
+            }
+        }
+        var s = new Start()
+        s.init()
+    </script>
+</body>
+
+</html>

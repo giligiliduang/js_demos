@@ -1,0 +1,16 @@
+.container{
+    position: relative;
+    top:100px;
+    text-align: center;
+}
+.container>div{
+    width:200px;
+    height: 200px;
+    display: inline-block;
+}
+ .active{
+    background-color: red;
+}
+.rec{
+    background-color:black; 
+}

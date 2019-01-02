@@ -1,0 +1,28 @@
+!<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>`</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+</head>
+<body>
+    <div class="container">
+        <div class="rec" id="elem">鼠标移入改变颜色</div>
+    </div>
+    <script>
+        (function init(){
+            let elem=document.getElementById('elem')
+            elem.onmouseenter=function(){
+                elem.classList.remove('rec')
+                elem.classList.add('active')
+            }
+            elem.onmouseleave=function(){
+                    elem.classList.remove('active')
+                    elem.classList.add('rec')
+            }
+        })()
+    </script>
+</body>
+</html>

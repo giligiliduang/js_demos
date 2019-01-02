@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+</head>
+<body>
+    <div class="outter">
+        <label>
+                <input type="text" id="val">输入数字求和，数字之间用半角","号分隔
+        </label>
+        
+        <button>求和</button>
+        <div id="answer"></div>
+    </div>
+    <script>
+        let showres=document.getElementsByTagName('button')[0]
+        showres.onclick=(e)=>{
+            let val=document.getElementById('val').value
+            if(val!==''){
+                val=val.split(',')
+                let total=0
+                val.forEach((item)=>{
+                    total+=parseInt(item)
+                })
+                let answer=document.getElementById('answer')
+                answer.innerText=total
+            }
+        }
+    </script>
+</body>
+</html>

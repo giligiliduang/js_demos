@@ -1,0 +1,14 @@
+.outter{
+    margin: 0 auto;
+    width: 500px;
+    font-size: 12px;
+}
+.outter>button{
+    display: block;
+}
+
+#answer{
+    color:red;
+    font-size:40px;
+    font-weight: bold;
+}

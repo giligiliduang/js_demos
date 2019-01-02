@@ -1,0 +1,48 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+
+table{
+   
+    border: 1px solid dimgray;
+}
+
+table td{
+    width: 20px;
+    height: 20px;
+    color: white;
+    font-size: 15px;
+    text-align: center;
+    border: 1px solid dimgray;
+    cursor: pointer;
+}
+
+/*工具条样式*/
+.tool span{
+    font-size: 15px;
+    font-weight: bold;
+}
+.tool input{
+    width: 60px;
+    height: 20px;
+    vertical-align: text-bottom;
+    border: 2px solid lightgray;
+}
+.tool button{
+    height: 30px;
+    width: 100px;
+    border: 0;
+    outline: 0;
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: bold;
+    color: white;
+    background-color: black;
+    cursor: pointer;
+}
+
+.msg{
+    margin-bottom: 10px;
+}

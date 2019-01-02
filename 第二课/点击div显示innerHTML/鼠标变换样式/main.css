@@ -1,0 +1,25 @@
+*{
+    margin: 0;
+}
+.container{
+    text-align: center;
+}
+
+.rec{
+    margin: 0 auto;
+    width: 200px;
+    height: 200px;
+    background-color: black;
+    color:white;
+    font-size: 12px;
+}
+.active{
+    margin: 0 auto;
+    width: 200px;
+    height: 200px;
+    background-color: dimgray;
+    color:red;
+    border: 10px solid red;
+    font-size: 12px;
+    cursor: crosshair;
+}

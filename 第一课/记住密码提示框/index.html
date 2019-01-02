@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>hello</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="prompt">
+            <label>
+                    <input type="checkbox" value="">两周内自动登陆
+            </label>
+            <div class="hideit">为了您的信息安全，请不要在网吧或公用电脑上使用此功能！</div>
+        </div>
+    </div>
+    <script>
+        
+let elem=document.getElementsByTagName('label')[0]
+
+elem.onmouseenter=function(){
+
+    elem.classList.add('showit')
+    elem.classList.remove('hideit')
+}
+elem.onmouseleave=function(){
+    elem.classList.remove('showit')
+    elem.classList.add('hideit')
+}
+    </script>
+</body>
+</html>

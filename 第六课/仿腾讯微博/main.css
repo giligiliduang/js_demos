@@ -1,0 +1,167 @@
+/*normalize处理*/
+*{
+    padding: 0;
+    margin: 0;
+}
+body{
+    background-color: #3c3a3b;
+}
+li{
+    list-style: none;
+}
+a{
+    text-decoration: none;
+}
+
+.clearfix::after{
+    /* display: block; */
+    height: 0;
+    content: '.';
+    visibility: hidden;
+    clear: both;
+}
+
+/*主体部分居中对齐*/
+.main{
+    margin: 0 auto;
+    margin-top: 10px;
+    width: 500px;
+    border-radius: 3px;
+    background-color: aliceblue;
+}
+
+.top{
+    padding: 20px;
+}
+/*头像和昵称表单处理*/
+.avatars ul{
+    display: inline-block;
+}
+.avatars ul li{
+    float: left;
+    margin-left: 5px;
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+
+/*鼠标滑过，头像状态*/
+.avartar-hover{
+    border: 1px solid red;
+    opacity: 1;
+}
+/*鼠标点击头像状态*/
+.avatar-active{
+    opacity: 1;
+    border: 1px solid red;
+}
+
+.avatars img{
+    width: 25px;
+    height: 25px;
+}
+.avatars input{
+    display: inline-block;
+    border: 1px solid #d0d0d0;
+    border-radius: 5px;
+    box-shadow: inset 0 0 1px;
+    vertical-align: bottom;
+    height: 25px;
+}
+/*输入微博信息表单处理*/
+.text-input textarea{
+    position: relative;
+    top: 10px;
+    resize: none;
+    border: 1px solid #d0d0d0;
+    border-radius: 5px;
+    box-shadow: inset 0 0 1px;
+}
+/*处理剩余文字和广播按钮*/
+.message-banner{
+    border-bottom: 1px solid dimgray;
+    height: 40px;
+    background-color: white;
+}
+.message-banner p{
+    float: right;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    opacity: 0.7;
+    
+}
+.message-banner span{
+    font-size:15px;
+    font-weight: lighter;
+}
+.message-banner strong{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+.message-banner button{
+    width: 100px;
+    height: 30px;
+    border:0;
+    border-radius: 5px;
+    background: url('./imgs/btn.png') no-repeat;
+    background-position-x: -2px;
+    cursor: pointer;
+}
+.message-banner button:hover{
+    background-position-y: -30px;
+}
+/*处理消息框显示*/
+#list{
+    margin-top: 10px;
+    padding: 20px;
+}
+#list h1{
+    background-color:#e3eaec;
+    height: 60px;
+}
+#list h1 span{
+    position: relative;
+    left: 20px;
+    display: inline-block;
+    height: 30px;
+    font-size: 15px;
+    font-weight: 100;
+    background-color: white;
+}
+/*消息条目处理*/
+#list li{
+    border-bottom: 1px dashed dimgray;
+}
+
+
+.user-avatar{
+    float: left;
+    width: 50px;
+    height: 50px;
+    display: inline;
+}
+.content{
+    display: inline-block;
+    width: 400px;
+    overflow: hidden;
+}
+.username a{
+    font-size: 15px;
+}
+.username a:hover{
+    text-decoration: underline;
+}
+.time{
+    float: left;
+    color: #889db6;
+    font:12px/18px arial;
+}
+.delete-msg{
+    float: right;
+    color: #889db6;
+    font:12px/18px arial;
+    display: none;
+}
+
+.active{
+    background-color: #f5f5f5;
+}

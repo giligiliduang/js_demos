@@ -1,0 +1,40 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.main{
+    margin: 0 auto;
+    width: 0;
+    position: relative;
+    top:300px;
+
+}
+
+
+.bar{
+    width: 400px;
+    height: 40px;
+    border-radius: 5px;
+    line-height: 40px;
+    border:1px solid lightpink;
+    float: left;
+}
+
+.progress{
+    height: 100%;
+    width: 0%;
+    background-color: red;
+    display: inline-block;
+    text-align: center;
+    overflow:hidden;
+    float: left;
+}
+
+button{
+    display: inline-block;
+    width: 120px;
+    height: 40px;
+    border-radius: 5px;
+    background-color: red;
+}

@@ -1,0 +1,35 @@
+ul,
+li {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+#imageList {
+    width: 700px;
+    overflow: hidden;
+    zoom: 1;
+    border: 1px solid #333;
+    margin: 0 auto;
+    padding: 0 0 10px 10px;
+}
+
+#imageList li {
+    float: left;
+    width: 128px;
+    height: 128px;
+    border: 1px solid #ccc;
+    margin: 10px 10px 0 0;
+}
+
+#imageList li img {
+    float: left;
+    opacity: 0.3;
+    cursor: crosshair;
+    filter: alpha(opacity=30);
+}
+
+#imageList li.current img {
+    opacity: 1;
+    filter: alpha(opacity=100);
+}
