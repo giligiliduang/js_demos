@@ -1,2 +1,2 @@
 # js_demos
-平时练习javascript的一下源码
+本仓库为平时练习写的一些avascript小项目
