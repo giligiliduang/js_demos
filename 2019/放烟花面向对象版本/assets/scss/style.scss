@@ -1,0 +1,44 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-size: 100%;
+    list-style: none;
+}
+
+html{
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+body{
+    background-color: black;
+    position: absolute;
+}
+.header{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    position: relative;
+    left: 200px;
+    width: 1000px;
+}
+.button-group button{
+    height: 50px;
+    border: 0;
+    outline: 0;
+    border-radius: 5px;
+    color: white;
+    background-color: rgb(214, 61, 143);
+    cursor: pointer;
+    &.active{
+        background-color: rgb(245, 3, 132);
+    }
+}
+
+.greeting{
+    position: absolute;
+    font-size: 10em;
+    color: red;
+    left: 50%;
+}
