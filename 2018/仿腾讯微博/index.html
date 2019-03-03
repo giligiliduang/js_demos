@@ -88,9 +88,9 @@
                     }
                 })
             }
-            this.avatarActive=function(){
-                this.avatars.forEach(function(item,index){
-                    item.onclick=function(){
+            this.avatarActive = function () {
+                this.avatars.forEach(function (item, index) {
+                    item.onclick = function () {
                         self.clearAll()
                         item.classList.add('avatar-active')
                     }
@@ -107,7 +107,6 @@
                 this.avatars.forEach(function (item) {
                     if (item.className === "avatar-active") {
                         src = item.firstElementChild.src
-                        console.log(src)
                     }
                 })
                 return src
@@ -160,9 +159,9 @@
             this.getMessagedetail = function () {
                 return self.area.value
             }
-            this.clearTextInput=function(){
-                self.area.value=""
-                
+            this.clearTextInput = function () {
+                self.area.value = ""
+
             }
 
             this.init = function () {
@@ -173,7 +172,7 @@
         function Broadcast() {
             this.userinfo = new Userinfo()
             this.wordcount = new WordCount()
-            this.userinfo.init()            
+            this.userinfo.init()
             this.wordcount.init()
             this.basicInfo = function () {
                 var username = this.userinfo.getUsername()
@@ -200,14 +199,14 @@
             this.messages = document.getElementsByClassName('messages')[0]
             var self = this
             this.board = new Broadcast()
-            this.wordcount=new WordCount()
+            this.wordcount = new WordCount()
             this.addList = function () {
                 this.send.onclick = function (e) {
                     var basic = self.board.basicInfo()
                     var username = basic['username']
                     var avatarsrc = basic['avatarsrc']
                     var message = basic['message']
-                    var date=(new Date).toLocaleString()
+                    var date = (new Date).toLocaleString()
                     var li = document.createElement('li')
                     li.innerHTML =
                         `<div class="user-avatar clearfix">
@@ -232,7 +231,7 @@
 
         }
 
-        var s=new ShowList()
+        var s = new ShowList()
         s.addList()
     </script>
 </body>
