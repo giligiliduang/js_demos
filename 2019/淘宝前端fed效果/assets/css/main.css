@@ -1,0 +1,80 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+}
+
+.img-box {
+
+    position: relative;
+    width: 80%;
+    height: 80%;
+}
+
+.img-box div {
+    position: absolute;
+    display: inline-block;
+}
+
+.defaultStyle {
+    background-color: white;
+    opacity: 0;
+    -webkit-transition: opacity;
+}
+
+
+.fade {
+    -webkit-animation: fadeIn .5s .5s;
+    animation: fadeIn .5s .5s;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1
+    }
+}
+
+
+
+
+
+
+@-webkit-keyframes mask {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: -100% 0;
+    }
+}
+
+.you {
+    text-align: center;
+    color: #999;
+    font-size: 2em;
+    background-image: -webkit-linear-gradient(left, #999, #999 5%, #fff 10%, #999 15%, #999);
+    background-size: 200%;
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    -webkit-animation: anim 3s infinite;
+}
+
+@-webkit-keyframes anim {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: -100% 0;
+    }
+}

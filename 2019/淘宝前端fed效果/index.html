@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0;user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./assets/css/main.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container">
+        <!--flex容器-->
+        <div class="img-box">
+
+        </div>
+    </div>
+    <script>
+        ! function (e) {
+            function t(a) {
+                if (i[a]) return i[a].exports;
+                var n = i[a] = {
+                    exports: {},
+                    id: a,
+                    loaded: !1
+                };
+                return e[a].call(n.exports, n, n.exports, t), n.loaded = !0, n.exports
+            }
+            var i = {};
+            return t.m = e, t.c = i, t.p = "", t(0)
+        }([function (e, t) {
+            "use strict";
+            Object.defineProperty(t, "__esModule", {
+                value: !0
+            });
+            var i = window;
+            t["default"] = i.flex = function (normal, e, t) {
+                var a = e || 100,
+                    n = t || 1,
+                    r = i.document,
+                    o = navigator.userAgent,
+                    d = o.match(/Android[\S\s]+AppleWebkit\/(\d{3})/i),
+                    l = o.match(/U3\/((\d+|\.){5,})/i),
+                    c = l && parseInt(l[1].split(".").join(""), 10) >= 80,
+                    p = navigator.appVersion.match(/(iphone|ipad|ipod)/gi),
+                    s = i.devicePixelRatio || 1;
+                p || d && d[1] > 534 || c || (s = 1);
+                var u = normal ? 1 : 1 / s,
+                    m = r.querySelector('meta[name="viewport"]');
+                m || (m = r.createElement("meta"), m.setAttribute("name", "viewport"), r.head.appendChild(m)),
+                    m.setAttribute("content", "width=device-width,user-scalable=no,initial-scale=" + u +
+                        ",maximum-scale=" + u + ",minimum-scale=" + u), r.documentElement.style.fontSize =
+                    normal ? "50px" : a / 2 * s * n + "px"
+            }, e.exports = t["default"]
+        }]);
+        flex(false, 100, 1);
+    </script>
+    <script>
+        class FED {
+
+            constructor(ops = {}) {
+                this.container = ops.container || document.body
+                this.baseWidth = 1
+                this.baseHeight = 1
+                this.rectWidth = ops.rectWidth || .3
+                this.rectHeight = ops.rectHeight || .3
+                this.defaultColor = ops.defaultColor || 'white'
+                this.rectPos = [
+                    [0, 0],
+                    [0, 1],
+                    [0, 2],
+                    [0, 3],
+                    [0, 6],
+                    [0, 7],
+                    [0, 8],
+                    [0, 9],
+                    [0, 10],
+                    [0, 14],
+                    [0, 15],
+                    [0, 16],
+                    [0, 17],
+                    [1, 0],
+                    [1, 6],
+                    [1, 14],
+                    [1, 17],
+                    [2, 0],
+                    [2, 6],
+                    [2, 14],
+                    [2, 17],
+                    [3, 0],
+                    [3, 1],
+                    [3, 2],
+                    [3, 3],
+                    [3, 6],
+                    [3, 7],
+                    [3, 8],
+                    [3, 9],
+                    [3, 10],
+                    [3, 14],
+                    [3, 17],
+                    [4, 0],
+                    [4, 6],
+                    [4, 14],
+                    [4, 17],
+                    [5, 0],
+                    [5, 6],
+                    [5, 14],
+                    [5, 17],
+                    [6, 0],
+                    [6, 6],
+                    [6, 7],
+                    [6, 8],
+                    [6, 9],
+                    [6, 10],
+                    [6, 14],
+                    [6, 15],
+                    [6, 16],
+                    [6, 17],
+                ]
+                this.rect = (new Array(7)).fill(new Array(18))
+            }
+            initHtml() {
+                let tmpNode,
+                    rects = [],
+                    you = this.choice(this.rectPos)
+
+                const fragment = document.createDocumentFragment()
+                for (let [x, y] of this.rectPos) {
+                    tmpNode = document.createElement('div')
+                    tmpNode.style.width = this.rectWidth + 'rem'
+                    tmpNode.style.height = this.rectHeight + 'rem'
+                    tmpNode.style.left = (this.baseWidth + y * this.rectWidth) + 'rem'
+                    tmpNode.style.top = (this.baseHeight + x * this.rectHeight) + 'rem'
+                    fragment.append(tmpNode)
+                    rects.push(tmpNode)
+                }
+
+
+                let youindex = this.rectPos.indexOf(you)
+                this.container.appendChild(fragment)
+                rects = this.shuffle(rects)
+
+                for (let [index, each] of rects.entries()) {
+                    if (index === youindex) {
+                        continue
+                    }
+                    setTimeout(() => {
+                        each.style.backgroundColor = 'orange'
+                        each.classList.add('fade')
+                    }, index * 30)
+                }
+            
+                setTimeout(() => {
+                    rects[youindex].innerText = 'you'
+                    rects[youindex].style.fontSize='.1rem'
+                    rects[youindex].style.backgroundColor='lightgreen'
+                }, rects.length * 30)
+            }
+            choice(arr) {
+                return arr[Math.floor(Math.random() * arr.length)]
+            }
+            shuffle(arr) {
+                //二维数组打乱
+                return arr.sort(() => {
+                    return Math.random() - 0.5
+                })
+            }
+
+        }
+
+
+        new FED({
+            container: document.querySelector('.img-box')
+        }).initHtml()
+    </script>
+</body>
+
+</html>
