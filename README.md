@@ -15,4 +15,4 @@
 1. [放烟花](https://giligiliduang.github.io/js_demos/2019/%E6%94%BE%E7%83%9F%E8%8A%B1%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%89%88%E6%9C%AC/index.html)
 2. [canvas小球](https://giligiliduang.github.io/js_demos/2019/%E5%88%A9%E7%94%A8canvas%E7%BB%98%E5%88%B6%E5%B0%8F%E7%90%83/index.html)
 3. [淘宝前端fed效果](https://giligiliduang.github.io/js_demos/2019/%E6%B7%98%E5%AE%9D%E5%89%8D%E7%AB%AFfed%E6%95%88%E6%9E%9C/index.html)
-4. [canvas版本滚动弹幕](https://giligiliduang.github.io/js_demos/2019/%E6%BB%9A%E5%8A%A8%E5%BC%B9%E5%B9%95/index.html)
+4. [canvas版本滚动弹幕](https://giligiliduang.github.io/js_demos/2019/%E6%BB%9A%E5%8A%A8%E5%BC%B9%E5%B9%95/index(canvas).html)
