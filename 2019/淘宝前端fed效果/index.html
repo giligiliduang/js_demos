@@ -3,10 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0;user-scalable=0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="./assets/css/main.css">
-    <title>Document</title>
+    <title>淘宝前端团队fed效果</title>
 </head>
 
 <body>
@@ -169,11 +169,15 @@
                         each.classList.add('fade')
                     }, index * 30)
                 }
-
+                
                 setTimeout(() => {
-                    rects[youindex].innerText = 'you'
-                    rects[youindex].style.fontSize = '.1rem'
-                    rects[youindex].style.backgroundColor = 'lightgreen'
+                    let youNode=rects[youindex]
+                    youNode.classList.add('fade')
+                    youNode.innerText = 'you'
+                    youNode.style.fontSize = '.1rem'
+                    youNode.style.textAlign = 'center'
+                    youNode.style.color = 'red'
+                    youNode.style.backgroundColor = 'lightgreen'
                 }, rects.length * 30)
             }
             choice(arr) {

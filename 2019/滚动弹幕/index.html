@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>手持弹幕</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+        .wrapper{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+        }
+        html {
+            overflow-x: hidden;
+            overflow-y: hidden;
+        }
+
+        .danmu {
+            font-size: 10em;
+            word-break: break-all;
+            white-space: nowrap;
+            background-color: red;
+            position: absolute;
+            left: 0;
+            top: 0;
+            cursor: pointer;
+        }
+
+
+
+        .colorli {
+            float: left;
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            margin-left: 1rem;
+            color: white;
+        }
+
+        .clearfix::after {
+            content: '.';
+            visibility: hidden;
+            height: 0;
+            clear: both;
+            display: block;
+        }
+
+        .choose-color {
+            margin-top: 10px;
+        }
+
+        .fontsize {
+            margin-top: 10px;
+        }
+
+      
+
+       
+    </style>
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <div class="text-container">
+            <div class="danmu"></div>
+            <div class="tool-bar">
+                <button class="acc">加速</button>
+                <button class="dec">减速</button>
+                <button class="restart">重新开始</button>
+            </div>
+            <div class="choose-color"></div>
+            <div class="fontsize"></div>
+        </div>
+    </div>
+    <script>
+        class Danmu {
+            constructor(options) {
+                this.xSpeed = options.xSpeed || 5
+                this.ySpeed = options.ySpeed || 5
+                this.timer = ''
+                this.text=options.text || '手持弹幕'
+                this.fontColor = options.fontColor || 'black'
+                this.backgroundColor = options.backgroundColor || 'red'
+                this.fontSize = options.fontSize || '10em'
+                this.el = options.el
+                this.orginPos = options.orginPos || 'left'
+            }
+
+            setPos(element,x,y,xSpeed,ySpeed){
+                if('transform' in element.style){
+                    element.style.transform=`translate(${x}px,${y}px)`
+                }else{
+                    element.style.left=x+'px'
+                    element.style.top=y+'px'
+                }
+            }
+
+            move(element, sourcePos, destPos) {
+                element.innerText=this.text
+                element.style.fontSize = this.fontSize
+                element.style.color = this.fontColor
+                element.style.backgroundColor = this.backgroundColor
+                let posx = sourcePos.x
+                let posy = sourcePos.y
+                let xDirection = sourcePos.x - destPos.x > 0 ? 'left' : sourcePos.x - destPos.x === 0 ? 'stop' :
+                    'right' //运动方向
+                let yDirection = sourcePos.y - destPos.y > 0 ? 'top' : sourcePos.y - destPos.y === 0 ? 'stop' :
+                    'bottom' //运动方向
+                const doMove = () => {
+                    let xSpeed= xDirection === 'right' ? this.xSpeed : xDirection === 'stop' ? 0 : -this.xSpeed
+                    let ySpeed= yDirection === 'bottom' ? this.ySpeed : yDirection === 'stop' ? 0 : -this.ySpeed
+                    sourcePos.x+=xSpeed
+                    sourcePos.y+=ySpeed
+                    this.setPos(element,sourcePos.x,sourcePos.y,xSpeed,ySpeed)
+                    this.timer = requestAnimationFrame(doMove)
+                    if (xDirection === 'right') {
+                        if (sourcePos.x >= destPos.x) {
+                            sourcePos.x = posx - element.offsetWidth
+                        }
+                    }
+                    if (xDirection === 'left') {
+                        if (sourcePos.x <= destPos.x-element.offsetWidth) {
+                            sourcePos.x = posx 
+                        }
+                    }
+                }
+
+                requestAnimationFrame(doMove)
+            }
+
+            start() {
+                let sourcePos,destPos
+                if (this.orginPos === 'left') {
+                    sourcePos = {
+                        x: -this.el.offsetWidth,
+                        y: 200
+                    }
+                    destPos = {
+                        x: document.documentElement.clientWidth,
+                        y: 200
+                    }
+
+                } else {
+                    sourcePos = {
+                        x: document.documentElement.clientWidth,
+                        y: 200
+                    }
+                    destPos = {
+                        x: -this.el.offsetWidth,
+                        y: 200
+                    }
+                }
+                this.move(this.el, sourcePos, destPos)
+            }
+
+            restart() {
+                this.start()
+            }
+        }
+
+
+        (function () {
+
+            document.addEventListener('select', function (e) {
+                e.preventDefault()
+                return false
+            })
+            document.addEventListener('selectstart', function (e) {
+                e.preventDefault()
+                return false
+            })
+
+            function renderColorList() {
+                let container = document.querySelector('.choose-color')
+                let colors = ['red', 'green', 'pink']
+                let ul = document.createElement('ul')
+                ul.classList.add('clearfix')
+                let colorLi = colors.map(color => {
+                    return `<li class="colorli" style="background-color:${color};"></li>`
+                }).join('')
+                ul.innerHTML = colorLi
+                ul.addEventListener('click', function (e) {
+                    e = e || event
+                    let target = e.target || e.srcElement
+                    if (target.nodeName.toLowerCase() === 'li') {
+                        danmu.backgroundColor = target.style.backgroundColor
+                        danmu.restart()
+                    }
+                })
+                container.appendChild(ul)
+            }
+
+            function renderFontColorList() {
+                let container = document.querySelector('.choose-color')
+                let colors = ['purple', 'red', 'blue']
+                let ul = document.createElement('ul')
+                ul.classList.add('clearfix')
+                let colorLi = colors.map(color => {
+                    return `<li class="colorli" style="background-color:${color};"></li>`
+                }).join('')
+                ul.innerHTML = colorLi
+                ul.addEventListener('click', function (e) {
+                    e = e || event
+                    let target = e.target || e.srcElement
+                    if (target.nodeName.toLowerCase() === 'li') {
+                        danmu.fontColor = target.style.backgroundColor
+                        danmu.restart()
+                    }
+                })
+                container.appendChild(ul)
+            }
+
+            function renderFontSizeList() {
+                let container = document.querySelector('.fontsize')
+                let sizes = ['大', '中', '小']
+                let fontSizeMap={
+                    大:'15rem',
+                    中:'10rem',
+                    小:'5rem'
+                }
+                let ul = document.createElement('ul')
+                ul.addEventListener('click',function(e){
+                    e = e || event
+                    let target = e.target || e.srcElement
+                    if (target.nodeName.toLowerCase() === 'li') {
+                        danmu.fontSize = fontSizeMap[target.innerText]
+                        danmu.restart()
+                    }
+                })
+                ul.classList.add('clearfix')
+                let fontLi = sizes.map(size => {
+                    return `<li class="colorli">${size}</li>`
+                }).join('')
+                ul.innerHTML = fontLi
+                container.appendChild(ul)
+            }
+
+            function init() {
+
+
+                danmu = new Danmu({
+                    el: document.querySelector('.danmu'),
+                    xSpeed: 10,
+                    fontColor: 'yellow',
+                    backgroundColor: 'white',
+                    orginPos:'right'
+                })
+                danmu.start()
+
+                let acc = document.querySelector('.acc')
+                let dec = document.querySelector('.dec')
+                let restart = document.querySelector('.restart')
+                acc.addEventListener('click', function () {
+                    danmu.xSpeed++
+                })
+                dec.addEventListener('click', function () {
+                    danmu.xSpeed > 0 && danmu.xSpeed--
+
+                })
+                restart.addEventListener('click', function () {
+                    danmu.restart()
+                })
+            }
+            renderColorList()
+            renderFontColorList()
+            renderFontSizeList()
+            init()
+        })()
+
+
+
+    </script>
+</body>
+
+</html>
